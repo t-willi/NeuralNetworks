@@ -21,7 +21,7 @@ import requests
 import os
 
 
-def walk_through_dir(dir_path):
+def walk_through_dir_test(dir_path):
     """
     Walks through dir_path returning its contents.
     Args:
