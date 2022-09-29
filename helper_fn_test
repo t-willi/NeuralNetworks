@@ -1,18 +1,24 @@
+"""
+A series of helper functions used throughout the course.
+
+If a function gets defined once and could be used over and over, it'll go in here.
+"""
 import torch
-from torch import nn
 import matplotlib.pyplot as plt
-import torchvision
-from torchvision import datasets
-from torchvision.transforms import ToTensor
-import pandas as pd
-from timeit import default_timer as timer 
-from torch.utils.data.dataloader import DataLoader
-from tqdm.auto import tqdm
-from timeit import default_timer as timer
+import numpy as np
 
+from torch import nn
 
+import os
+import zipfile
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+from pathlib import Path
+
+import requests
+
+# Walk through an image classification directory and find out how many files (images)
+# are in each subdirectory.
+import os
 
 def test_import():
   print("this is a test import")
