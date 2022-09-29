@@ -1,10 +1,15 @@
+import torch
+from torch import nn
+
 def test_import():
   print("this is a test import")
+
 
 def eval_model(model: torch.nn.Module, 
                data_loader: torch.utils.data.DataLoader, 
                loss_fn: torch.nn.Module, 
-               accuracy_fn):
+               accuracy_fn,
+               device):
     """Returns a dictionary containing the results of model predicting on data_loader.
 
     Args:
@@ -20,12 +25,13 @@ def eval_model(model: torch.nn.Module,
     model.eval()
     with torch.inference_mode():
         for X, y in data_loader:
+          X,y = X.to(device), y.to(device)
             # Make predictions with the model
-            y_pred = model(X)
+          y_pred = model(X)
             
             # Accumulate the loss and accuracy values per batch
-            loss += loss_fn(y_pred, y)
-            acc += accuracy_fn(y_true=y, 
+          loss += loss_fn(y_pred, y)
+          acc += accuracy_fn(y_true=y, 
                                 y_pred=y_pred.argmax(dim=1)) # For accuracy, need the prediction labels (logits -> pred_prob -> pred_labels)
         
         # Scale loss and acc to find the average loss/acc per batch
