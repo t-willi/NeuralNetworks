@@ -1,3 +1,24 @@
+import torch
+from torch import nn
+import matplotlib.pyplot as plt
+import torchvision
+from torchvision import datasets, models, transforms
+from torchvision.transforms import ToTensor
+import pandas as pd
+import numpy as np
+from torch.utils.data import Dataset, DataLoader
+from timeit import default_timer as timer 
+import glob
+import torch.optim as optim
+from sklearn.preprocessing import normalize
+from sklearn.preprocessing import MinMaxScaler
+from random import shuffle
+
+import requests
+import zipfile
+from pathlib import Path
+
+
 
 def find_max_min(data_dir=None):
   """
@@ -21,7 +42,7 @@ def find_max_min(data_dir=None):
     minimum=min(min_list)
   return(maximum,minimum)
   
-def get_pred(dataset=val_dataset):
+def get_pred(dataset=None):
   """
   Function takes a Tensor Dataset as input,first a random file from the dataset is selected,
   then the Tensor pair is recombined and shaped into a df-->df_Input. 
