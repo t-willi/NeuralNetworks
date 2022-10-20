@@ -1,4 +1,6 @@
 
+import pandas as pd
+
 def plotECG(df1=None,df2=None,title=None,pad_df2=True,Path=None):
   """
   takes two dataframes with identical columns, concats them and plots them as ecg using ecg_plot
@@ -11,8 +13,8 @@ def plotECG(df1=None,df2=None,title=None,pad_df2=True,Path=None):
     if len(df1.columns)>len(df2.columns):
       df2.insert(0, 'real_lead1', df1["R1"])
   frames=[df1/1000,df2/1000]
-  df=pd.concat(frames,axis=1,join="outer",)
-  ecg_plot.plot(df.values.T, sample_rate = 500,title = title,
+  combined_df=pd.concat(frames,axis=1,join="outer",)
+  ecg_plot.plot(combined_df.values.T, sample_rate = 500,title = title,
                      lead_index = index )
   ecg_plot.save_as_png('ecg',Path)
 
