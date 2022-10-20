@@ -11,7 +11,7 @@ from torch import nn
 from torch.utils.data import DataLoader, Dataset
 from tqdm.auto import tqdm
 
-def hello():
+def by():
     return("Hello")
     
 def find_max_min(data_dir=None):
