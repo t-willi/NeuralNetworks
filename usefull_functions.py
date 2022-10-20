@@ -9,6 +9,7 @@ import torch
 import torch.optim as optim
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
+from tqdm.auto import tqdm
 
 
 def find_max_min(data_dir=None):
