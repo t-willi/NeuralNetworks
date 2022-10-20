@@ -18,4 +18,4 @@ def plotECG(df1=None,df2=None,title=None,pad_df2=True,Path=None):
                      lead_index = index )
   ecg_plot.save_as_png('ecg',Path)
 
-  return df
+  return combined_df
