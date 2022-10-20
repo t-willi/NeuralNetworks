@@ -1,9 +1,9 @@
 
-def training_loop(batchsize=128):
+def training_loop(dataloader=None,batchsize=128):
     for epoch in tqdm(range(Epochs)):
         print(f"Epoch:{epoch}")
         train_loss=0
-        for batch, (X,y) in enumerate(tqdm(train_dataloader)):
+        for batch, (X,y) in enumerate(tqdm(dataloader)):
             X, y = X.to(device), y.to(device) 
             model.train()
             output=model(X)
