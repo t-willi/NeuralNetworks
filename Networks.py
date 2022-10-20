@@ -1,6 +1,9 @@
 """
 Here, we define the autoencoder model.This model is taken from "https://github.com/L1aoXingyu/pytorch-beginner/blob/master/08-AutoEncoder/simple_autoencoder.py"
 """
+import torch
+from torch import nn
+
 class ECG_AE_v1(nn.Module):
     def __init__(self,step1=128,step2=64,step3=20):
         super(ECG_AE_v1, self).__init__()
