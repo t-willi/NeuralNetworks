@@ -1,7 +1,7 @@
 import glob
 import pandas as pd
 import torch
-class Custom_dataset(Dataset=None):
+class Custom_dataset(Dataset):
   
     def __init__(self, data_dir,max_value=5011,column=3,split=False,target="train"):
       #get all files from directory loaded in all_files list
