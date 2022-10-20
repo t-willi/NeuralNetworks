@@ -1,23 +1,14 @@
-import torch
-from torch import nn
-import matplotlib.pyplot as plt
-import torchvision
-from torchvision import datasets, models, transforms
-from torchvision.transforms import ToTensor
-import pandas as pd
-import numpy as np
-from torch.utils.data import Dataset, DataLoader
-from timeit import default_timer as timer 
 import glob
-import torch.optim as optim
-from sklearn.preprocessing import normalize
-from sklearn.preprocessing import MinMaxScaler
-from random import shuffle
-
-import requests
-import zipfile
 from pathlib import Path
+from random import shuffle
+from timeit import default_timer as timer
 
+import numpy as np
+import pandas as pd
+import torch
+import torch.optim as optim
+from torch import nn
+from torch.utils.data import DataLoader, Dataset
 
 
 def find_max_min(data_dir=None):
@@ -97,6 +88,7 @@ def train_model(Epochs=20,model=model,train_dataloader=train_dataloader,val_data
   # test_count = []
   # train_count = []
   from tqdm.auto import tqdm
+
   #train and test loop
   for epoch in tqdm(range(Epochs)):
     print(f"Epoch:{epoch}")
