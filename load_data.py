@@ -1,4 +1,8 @@
-def load_data(dir=None,BATCH_SIZE=128)
+### This does not yet wotk cause i dont know how to call the 
+# custom dataset class when i import the load _data function
+
+
+def load_data(dir=None,BATCH_SIZE=128,Custom_dataset=None):
     train_dataset = Custom_dataset(dir=dir,split=True,target="train")
     test_dataset = Custom_dataset(data_dir=dir,split=True,target="test")
     val_dataset = Custom_dataset(dir=dir,split=True,target="val")
@@ -16,3 +20,5 @@ def load_data(dir=None,BATCH_SIZE=128)
                                 shuffle=True,
                                 drop_last=True
                                 )
+
+    return(train_dataloader,val_dataloader,test_dataset)
