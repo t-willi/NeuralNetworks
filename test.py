@@ -9,4 +9,4 @@ Original file is located at
 
 def test():
   print("test")
-
+test()
