@@ -1,5 +1,6 @@
 
 def validation_loop(dataloader,batchsize=128):
+  for epoch in tqdm(range(Epochs)):
     val_loss = 0
     model.eval()
     with torch.inference_mode():
