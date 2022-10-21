@@ -16,6 +16,9 @@ def plotECG(df1=None,df2=None,title=None,pad_df2=True,path=None):
   combined_df=pd.concat(frames,axis=1,join="outer",)
   ecg_plot.plot(combined_df.values.T, sample_rate = 500,title = title,
                      lead_index = index )
+  from pathlib import Path
+  path=path
+  path=Path(path)
   path.mkdir(parents=True, exist_ok=True)
   ecg_plot.save_as_png('ecg',path+"/")
 
