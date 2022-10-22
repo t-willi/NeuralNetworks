@@ -56,3 +56,13 @@ class Custom_dataset():
       #combine input and label and output
       temp_tensor_pair= temp_tensor_in,temp_tensor_out
       return temp_tensor_pair
+
+
+def make_loader(dataset,batch_size):
+  from torch.utils.data import DataLoader
+  loader = DataLoader(dataset,
+                      batch_size=batch_size,
+                      shuffle=True,
+                      drop_last=True
+                      )
+  return loader
