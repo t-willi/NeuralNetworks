@@ -23,6 +23,7 @@ def get_pred(dataset=None,model=None):
   with torch.inference_mode():
     output=model(X)
   output=output.detach().numpy()
+  output=output.squeeze().T
   #unscale data
   df_output = pd.DataFrame(output,columns=["F2","Fv1","Fv2","Fv3","Fv4","Fv5","Fv6"])*5011
   df_input=df_input*5011
