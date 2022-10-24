@@ -120,7 +120,7 @@ class ECG_stacked_AE(nn.Module):
 
 class ECG_AE_conv_leak(nn.Module):
     def __init__(self,step1=128,step2=64,step3=20):
-        super(ECG_AE_v2, self).__init__()
+        super(ECG_AE_conv_leak, self).__init__()
         self.encoder = nn.Sequential(
             nn.Conv1d(1,1,101,padding=50),
             nn.Linear(5000,step1),
