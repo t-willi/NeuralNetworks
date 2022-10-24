@@ -3,6 +3,8 @@ Here, we define the autoencoder model.This model is taken from "https://github.c
 """
 import torch
 from torch import nn
+from torch.nn.modules.activation import LeakyReLU
+from torch.nn import ConvTranspose1d
 
 class ECG_AE_v1(nn.Module):
     def __init__(self,step1=128,step2=64,step3=20):
@@ -113,4 +115,31 @@ class ECG_stacked_AE(nn.Module):
         x7 = self.decoder7(x)
 
 
+        return x
+
+
+class ECG_AE_conv_leak(nn.Module):
+    def __init__(self,step1=128,step2=64,step3=20):
+        super(ECG_AE_v2, self).__init__()
+        self.encoder = nn.Sequential(
+            nn.Conv1d(1,1,101,padding=50),
+            nn.Linear(5000,step1),
+            nn.LeakyReLU(),
+            nn.Linear(step1,step2),
+            nn.LeakyReLU(),
+            nn.Linear(step2,step3),
+            nn.LeakyReLU(),
+
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(step3,step2),
+            nn.LeakyReLU(),
+            nn.Linear(step2,step1),
+            nn.LeakyReLU(),
+            nn.Linear(step1,35000)
+        )
+
+    def forward(self, x):
+        x = self.encoder(x)
+        x = self.decoder(x)
         return x
