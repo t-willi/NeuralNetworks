@@ -2,15 +2,19 @@ import glob
 import pandas as pd
 import torch
 class Custom_dataset():
-    def __init__(self, data_dir,max_value=5011,column=3,split=False,target="train"):
+    def __init__(self, data_dir,max_value=5011,column=3,split=True,target="train",size=1):
       #get all files from directory loaded in all_files list
       self.column=column
       self.max_value=max_value
+      self.size=size
       #should shuffle the data here?
       self.files = glob.glob(data_dir + '/*.asc')
-      self.len=len(self.files)
+      self.len=int((len(self.files))*self.size)
+      #print(f"len:{self.len}")
       self.cut1=int(self.len*0.8)
+      #print(f"cut1:{self.cut1}")
       self.cut2=int(self.len*0.9)
+      #print(f"cut2:{self.cut2}")
       self.train_files=self.files[0:self.cut1]
       self.test_files=self.files[self.cut1:self.cut2]
       self.val_files=self.files[self.cut2:self.len]
