@@ -113,9 +113,18 @@ class ECG_stacked_AE(nn.Module):
         x5 = self.decoder5(x)
         x6 = self.decoder6(x)
         x7 = self.decoder7(x)
+        x_cat=torch.stack([x1,x2,x3,x4,x5,x6,x7])
+        #permute for training and validation while training with batches
+        if x.ndim == 3:
+            #print(f"input has shape of{x.shape} and dimension of {x.ndim},reshaping output to (batchsize,1,7,5000)) ")
+            x_cat=torch.permute(x_cat,(1,2,0,3))
+        #permute for taking predictions from dataset
+        if x.ndim == 2:
+            #print(f"input has shape of{x.shape} and dimension of {x.ndim},reshaping output to (1,7,5000)) ")
+            x_cat=torch.permute(x_cat,(1,0,2))
 
 
-        return x
+        return x_cat
 
 
 class ECG_AE_conv_leak(nn.Module):
@@ -142,4 +151,6 @@ class ECG_AE_conv_leak(nn.Module):
     def forward(self, x):
         x = self.encoder(x)
         x = self.decoder(x)
+        x=torch.reshape(x,( 1, 7, 5000))
+
         return x
