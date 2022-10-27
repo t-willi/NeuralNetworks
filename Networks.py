@@ -122,6 +122,7 @@ class ECG_stacked_AE(nn.Module):
         if x.ndim == 2:
             #print(f"input has shape of{x.shape} and dimension of {x.ndim},reshaping output to (1,7,5000)) ")
             x_cat=torch.permute(x_cat,(1,0,2))
+            x_cat=x_cat.squeeze()
 
 
         return x_cat
@@ -152,5 +153,48 @@ class ECG_AE_conv_leak(nn.Module):
         x = self.encoder(x)
         x = self.decoder(x)
         x=torch.reshape(x,( 1, 7, 5000))
+
+        return x
+
+class ECG_strange_U(nn.Module):
+    def __init__(self,step1=20,step2=10):
+        super(ECG_strange_U, self).__init__()
+        self.encoder = nn.Sequential(
+            nn.Conv1d(1,1,101),
+            nn.MaxPool1d(2),
+            nn.Conv1d(1,1,50),
+            nn.MaxPool1d(2),
+            nn.Conv1d(1,1,25),
+            nn.MaxPool1d(2),
+            nn.Conv1d(1,1,10),
+            nn.MaxPool1d(2),
+            nn.Conv1d(1,1,5),
+            nn.MaxPool1d(2),
+            nn.Conv1d(1,1,5),
+            nn.MaxPool1d(2),
+            nn.Conv1d(1,1,5),
+            nn.MaxPool1d(2),
+            nn.Linear(32,step1),
+            nn.LeakyReLU(),
+            nn.Linear(step1,step2),
+            nn.LeakyReLU(),
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(step2,step1),
+            nn.ReLU(),
+            nn.Linear(20,100),
+            nn.ReLU(),
+            nn.Linear(100,500),
+            nn.ReLU(),
+            nn.Linear(500,5000),
+            nn.ReLU(),
+            nn.Linear(5000,34900),
+            nn.ReLU(),
+            nn.ConvTranspose1d(1,1,101)
+        )
+
+    def forward(self, x):
+        x = self.encoder(x)
+        x = self.decoder(x)
 
         return x
