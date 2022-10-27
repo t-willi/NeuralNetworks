@@ -36,7 +36,7 @@ class ECG_AE_v1(nn.Module):
 
 class ECG_stacked_AE(nn.Module):
     def __init__(self,step1=128,step2=64,step3=20):
-        super(ECG_AE_v1, self).__init__()
+        super(ECG_stacked_AE, self).__init__()
         self.encoder = nn.Sequential(
             nn.Linear(5000,step1),
             nn.ReLU(),
