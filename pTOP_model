@@ -69,6 +69,6 @@ class Pulse2pulseGenerator(nn.Module):
         x=x.squeeze()
         return x
 
-model=Pulse2pulseGenerator().to(device)
+model=Pulse2pulseGenerator()
 # PATH="/content/artifacts/Model:v3/model"
 # model.load_state_dict(torch.load(PATH))
