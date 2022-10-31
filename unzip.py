@@ -13,9 +13,9 @@ def unzip(save_path=None,zip_path=None):
   else:
       print(f"Did not find {train_path} directory, creating one...")
       train_path.mkdir(parents=True, exist_ok=True)
-      # Unzip 
-      zip_path=Path(zip_path)
-      with zipfile.ZipFile(zip_path, "r") as zip_ref:
-          print(f"Unzipping data to folder...") 
-          zip_ref.extractall(train_path)
-          print("unzip is finished")
+  # Unzip 
+  zip_path=Path(zip_path)
+  with zipfile.ZipFile(zip_path, "r") as zip_ref:
+      print(f"Unzipping data to folder...") 
+      zip_ref.extractall(train_path)
+      print("unzip is finished")
