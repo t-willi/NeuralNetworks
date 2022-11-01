@@ -39,6 +39,7 @@ class Pulse2pulseGenerator(nn.Module):
         self.deconv_5 = Transpose1dLayer( 25, 10, 25, stride, upsample=upsample)
         self.deconv_6 = Transpose1dLayer(  10, 7, 25, stride, upsample=2)
 
+
         #new convolutional layers
         self.conv_1 = nn.Conv1d(1, 10, 25, stride=2, padding=25 // 2)
         self.conv_2 = nn.Conv1d(10, 25, 25, stride=5, padding= 25 // 2)
@@ -46,12 +47,16 @@ class Pulse2pulseGenerator(nn.Module):
         self.conv_4 = nn.Conv1d(50, 150 , 25, stride=5, padding= 25 // 2)
         self.conv_5 = nn.Conv1d(150, 250 , 25, stride=5, padding= 25 // 2)
         self.conv_6 = nn.Conv1d(250, 250 , 25, stride=5, padding= 25 // 2)
+        self.flatt = nn.Flatten()
+        self.linear1 = nn.Linear(500,100)
+        self.linear2 = nn.Linear(100,500)
 
         for m in self.modules():
             if isinstance(m, nn.ConvTranspose1d) or isinstance(m, nn.Linear):
                 nn.init.kaiming_normal_(m.weight.data)
 
-    def forward(self, x):
+    def forward(self, x, LS=False):
+        self.LS=LS
         if x.ndim==2:
           x=x.unsqueeze(0)
         x = F.leaky_relu(self.conv_1(x)) #(1,1,5000 --> 1, 10, 2500)
@@ -59,7 +64,14 @@ class Pulse2pulseGenerator(nn.Module):
         x = F.leaky_relu(self.conv_3(x)) #(--> 1, 50, 250)
         x = F.leaky_relu(self.conv_4(x)) # --> 1, 150, 50)
         x = F.leaky_relu(self.conv_5(x)) #(--> 1, 250, 10)
-        x = F.leaky_relu(self.conv_6(x)) #(--> 1, 250, 2)
+        x = F.leaky_relu(self.conv_6(x)) #(--> 1, 250, 2)-->flatten into (1,500)), then to linear ((1,100)), and then back
+        x = self.flatt(x) # (1,500)
+        LS = self.linear1(x) #(1,100)
+        if self.LS is True:
+          return LS
+        x = self.linear2(LS) #(1,500)
+        zero_dim=x.shape[0]
+        x=torch.reshape(x,(zero_dim,250,2)) #1(1,250,2)
         x = F.relu(self.deconv_1(x)) #(--> 1, 250, 10)
         x = F.relu(self.deconv_2(x)) #(--> 1, 150, 50)
         x = F.relu(self.deconv_3(x)) #( --> 1, 50, 250)
@@ -69,6 +81,6 @@ class Pulse2pulseGenerator(nn.Module):
         x=x.squeeze()
         return x
 
-model=Pulse2pulseGenerator()
+model=Pulse2pulseGenerator().to(device)
 # PATH="/content/artifacts/Model:v3/model"
 # model.load_state_dict(torch.load(PATH))
