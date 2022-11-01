@@ -1,7 +1,7 @@
 import torch
 import pandas as pd
 
-def get_pred(dataset=None,model=None):
+def get_pred(dataset=None,Set=None,model=None,random=True):
   """
   Function takes a Tensor Dataset as input,first a random file from the dataset is selected,
   then the Tensor pair is recombined and shaped into a df-->df_Input. 
@@ -9,10 +9,13 @@ def get_pred(dataset=None,model=None):
   Both dataframes are now unscaled by 5011, the max value of the whole dataset.
   Then a tuple pair of input and output is returned.
   """
-  import random
-  limit=len(dataset)
-  rand_idx=random.randint(0,limit)
-  X,y=dataset[rand_idx]
+  if random:
+    import random
+    limit=len(dataset)
+    rand_idx=random.randint(0,limit)
+    X,y=dataset[rand_idx]
+  if random is False:
+      X,y=Set
   #need to combine tensors to make dataframe for plotting input and output side by side
   full_tensor=torch.cat((X,y.squeeze()))
   full_tensor=full_tensor.numpy()
