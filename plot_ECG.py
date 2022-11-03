@@ -1,7 +1,7 @@
 
 import pandas as pd
 from pathlib import Path
-def plotECG(df1=None,df2=None,title=None,pad_df2=True,path=None,createECG=True):
+def plotECG(df1=None,df2=None,title=None,pad_df2=True,path=None,createECG=True,scale=None):
   """
   takes two dataframes with identical columns, concats them and plots them as ecg using ecg_plot
   it also takes the first column of df1 and ads it to df1 if pad_df2 is True
@@ -19,7 +19,10 @@ def plotECG(df1=None,df2=None,title=None,pad_df2=True,path=None,createECG=True):
   if pad_df2 is True:
     if len(df1.columns)>len(df2.columns):
       df2.insert(0, 'real_lead1', df1["R1"])
-  frames=[df1/1000,df2/1000]
+  if scale:
+    frames=[df1/1000,df2/1000]
+  if scale is None:
+    frames=[df1,df2]
   combined_df=pd.concat(frames,axis=1,join="outer",)
   if createECG is True:
     ecg_plot.plot(combined_df.values.T, sample_rate = 500,title = title,

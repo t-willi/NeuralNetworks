@@ -1,7 +1,7 @@
 import torch
 import pandas as pd
 
-def get_pred(dataset=None,Set=None,model=None,random=True):
+def get_pred(dataset=None,Set=None,model=None,random=True,upscale=None):
   """
   Function takes a Tensor Dataset as input,first a random file from the dataset is selected,
   then the Tensor pair is recombined and shaped into a df-->df_Input. 
@@ -29,5 +29,6 @@ def get_pred(dataset=None,Set=None,model=None,random=True):
   output=output.squeeze().T
   #unscale data
   df_output = pd.DataFrame(output,columns=["F2","Fv1","Fv2","Fv3","Fv4","Fv5","Fv6"])*5011
-  df_input=df_input*5011
+  if upscale:
+    df_input=df_input*upscale
   return df_input,df_output

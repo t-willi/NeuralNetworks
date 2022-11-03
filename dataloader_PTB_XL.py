@@ -63,8 +63,8 @@ class Custom_dataset_PTB():
       temp_list_out=temp_df.iloc[:,[1,6,7,8,9,10,11]].values
       #temp_list_out=normalize([temp_list_out], norm="max")
       temp_tensor_out=torch.tensor(temp_list_out,dtype=torch.float32)
-      temp_tensor_out=temp_tensor_out.unsqueeze(0)
-      temp_tensor_out=torch.permute(temp_tensor_out,(0,2,1))
+      #temp_tensor_out=temp_tensor_out.unsqueeze(0)
+      temp_tensor_out=torch.permute(temp_tensor_out,(0,1))
       #combine input and label and output
       temp_tensor_pair= temp_tensor_in,temp_tensor_out
       return temp_tensor_pair
