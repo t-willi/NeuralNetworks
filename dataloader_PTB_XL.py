@@ -48,6 +48,11 @@ class Custom_dataset_PTB():
         if self.target is "val":
           file_name = self.val_files[idx][:-4]
           temp_df=pd.DataFrame(wfdb.rdsamp(file_name)[0], columns = header)
+      if self.split is False:
+        print("split is False")
+        file_name = self.files[idx][:-4]
+        temp_df=pd.DataFrame(wfdb.rdsamp(file_name)[0], columns = header)
+      
       temp_df/=self.max_value
       #load input tensor
       temp_list_in=temp_df.iloc[:,0]
