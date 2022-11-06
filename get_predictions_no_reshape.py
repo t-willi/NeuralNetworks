@@ -28,7 +28,8 @@ def get_pred(dataset=None,Set=None,model=None,random=True,upscale=None):
   output=output.detach().numpy()
   output=output.squeeze().T
   #unscale data
-  df_output = pd.DataFrame(output,columns=["F2","Fv1","Fv2","Fv3","Fv4","Fv5","Fv6"])*5011
+  df_output = pd.DataFrame(output,columns=["F2","Fv1","Fv2","Fv3","Fv4","Fv5","Fv6"])
   if upscale:
     df_input=df_input*upscale
+    df_output=df_output*upscale
   return df_input,df_output
