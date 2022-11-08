@@ -1,14 +1,14 @@
 import glob
 import pandas as pd
 import torch
-class Custom_dataset():
-    def __init__(self, data_dir,max_value=5011,column=3,split=True,target="train",size=1):
+class Custom_dataset_PTB():
+    def __init__(self, data_dir,max_value=33,column=3,split=True,target="train",size=1):
       #get all files from directory loaded in all_files list
       self.column=column
       self.max_value=max_value
       self.size=size
       #should shuffle the data here?
-      self.files = glob.glob(data_dir + '/*.asc')
+      self.files = glob.glob(data_dir + '/*.csv')
       self.len=int((len(self.files))*self.size)
       #print(f"len:{self.len}")
       self.cut1=int(self.len*0.8)
@@ -33,17 +33,17 @@ class Custom_dataset():
         return len(self.files)
 
     def __getitem__(self,idx):
-      header = ["I","II","v1","v2","v3","v4","v5","v6"]
+      header=["I", "II", "III", "aVF", "aVR", "aVL", "V1", "V2", "V3", "V4", "V5", "V6"]
       #turn list of dataframes into Tensor
       if self.split is True:
         if self.target is "train":
-          temp_df=pd.read_csv(self.train_files[idx],sep=" ", names = header)
+          temp_df=pd.read_csv(self.train_files[idx],index_col=0,header=0,names=header)
         if self.target is "test":
-          temp_df=pd.read_csv(self.test_files[idx],sep=" ", names = header)
+          temp_df=pd.read_csv(self.test_files[idx],index_col=0,header=0,names=header)
         if self.target is "val":
-          temp_df=pd.read_csv(self.val_files[idx],sep=" ", names = header)
+          temp_df=pd.read_csv(self.val_files[idx],index_col=0,header=0,names=header)
       if self.split is not True:
-        temp_df=pd.read_csv(self.files[idx],sep=" ", names = header)
+        temp_df=pd.read_csv(self.files[idx],index_col=0,header=0,names=header)
       temp_df/=self.max_value
       #load input tensor
       
@@ -55,18 +55,7 @@ class Custom_dataset():
       temp_list_out=temp_df.loc[:,["II","v1","v2","v3","v4","v5","v6"]].values
       #temp_list_out=normalize([temp_list_out], norm="max")
       temp_tensor_out=torch.tensor(temp_list_out,dtype=torch.float32)
-      temp_tensor_out=temp_tensor_out.unsqueeze(0)
-      temp_tensor_out=torch.permute(temp_tensor_out,(0,2,1))
+      temp_tensor_out=temp_tensor_out.T
       #combine input and label and output
       temp_tensor_pair= temp_tensor_in,temp_tensor_out
       return temp_tensor_pair
-
-
-def make_loader(dataset,batch_size):
-  from torch.utils.data import DataLoader
-  loader = DataLoader(dataset,
-                      batch_size=batch_size,
-                      shuffle=True,
-                      drop_last=True
-                      )
-  return loader

@@ -47,19 +47,10 @@ class Custom_dataset():
       temp_df/=self.max_value
       #load input tensor
       
-      temp_list_in=temp_df.loc[:,"I"]
+      temp_list_in=temp_df.loc[:,["II","v1","v2","v3","v4","v5","v6"]].values
       #temp_list_in=normalize([temp_list_in], norm="max")
-      temp_tensor_in = torch.tensor(temp_list_in,dtype=torch.float32)
-      temp_tensor_in=temp_tensor_in.unsqueeze(0)
-      #load label Tensor
-      temp_list_out=temp_df.loc[:,["II","v1","v2","v3","v4","v5","v6"]].values
-      #temp_list_out=normalize([temp_list_out], norm="max")
-      temp_tensor_out=torch.tensor(temp_list_out,dtype=torch.float32)
-      temp_tensor_out=temp_tensor_out.unsqueeze(0)
-      temp_tensor_out=torch.permute(temp_tensor_out,(0,2,1))
-      #combine input and label and output
-      temp_tensor_pair= temp_tensor_in,temp_tensor_out
-      return temp_tensor_pair
+      temp_tensor_in = torch.tensor(temp_list_in,dtype=torch.float32).T
+      return temp_tensor_in
 
 
 def make_loader(dataset,batch_size):
