@@ -54,9 +54,7 @@ class Custom_dataset():
       #load label Tensor
       temp_list_out=temp_df.loc[:,["II","v1","v2","v3","v4","v5","v6"]].values
       #temp_list_out=normalize([temp_list_out], norm="max")
-      temp_tensor_out=torch.tensor(temp_list_out,dtype=torch.float32)
-      temp_tensor_out=temp_tensor_out.unsqueeze(0)
-      temp_tensor_out=torch.permute(temp_tensor_out,(0,2,1))
+      temp_tensor_out=torch.tensor(temp_list_out,dtype=torch.float32).T
       #combine input and label and output
       temp_tensor_pair= temp_tensor_in,temp_tensor_out
       return temp_tensor_pair

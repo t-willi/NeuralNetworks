@@ -33,7 +33,7 @@ class Custom_dataset_PTB():
         return len(self.files)
 
     def __getitem__(self,idx):
-      header=["I", "II", "III", "aVF", "aVR", "aVL", "V1", "V2", "V3", "V4", "V5", "V6"]
+      header=["I", "II", "III", "aVF", "aVR", "aVL", "v1", "v2", "v3", "v4", "v5", "v6"]
       #turn list of dataframes into Tensor
       if self.split is True:
         if self.target is "train":
@@ -59,3 +59,12 @@ class Custom_dataset_PTB():
       #combine input and label and output
       temp_tensor_pair= temp_tensor_in,temp_tensor_out
       return temp_tensor_pair
+
+def make_loader(dataset,batch_size):
+  from torch.utils.data import DataLoader
+  loader = DataLoader(dataset,
+                      batch_size=batch_size,
+                      shuffle=True,
+                      drop_last=True
+                      )
+  return loader
