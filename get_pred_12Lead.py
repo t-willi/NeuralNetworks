@@ -1,6 +1,5 @@
 import torch
 import pandas as pd
-
 def get_pred_12lead(dataset=None,Set=None,model=None,random=True,upscale=None):
   """
   Function takes a Tensor Dataset as input,first a random file from the dataset is selected,
