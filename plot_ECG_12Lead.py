@@ -22,9 +22,8 @@ def plotECG_12Lead(df1=None,df2=None,title=None,pad_df2=True,path=None,createECG
     frames=[df1,df2]
   combined_df=pd.concat(frames,axis=1,join="outer",)
   if createECG is True:
-    ecg_plot.plot(combined_df.values.T, sample_rate = 500,title = title,
-                      lead_index = index )
-    ecg_plot.save_as_png('ecg',ecg_path+"/")
+    ecg_plot.plot(combined_df.values.T, sample_rate = 500,lead_index = index )
+    ecg_plot.save_as_png(f'ecg{title}',ecg_path+"/")
   return combined_df
 
   
